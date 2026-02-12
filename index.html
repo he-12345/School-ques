@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes, viewport-fit=cover">
+    <!-- 网页链接名称（浏览器标签）——居中设计，移动优化 -->
+    <title>每天练一练，天天有进步</title>
+    <style>
+        /* 重置 & 移动端友好 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent; /* 去掉移动端点击灰块 */
+            font-family: 'Comic Sans MS', 'Chalkboard SE', '幼圆', 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', Roboto, sans-serif;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-text-size-adjust: 100%; /* 禁止微信自动调整字体 */
+        }
+
+        body {
+            background: linear-gradient(145deg, #fde8c8 0%, #fff2d9 100%);
+            min-height: 100vh;
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;     /* 垂直居中，保证主容器在屏幕中央 */
+        }
+
+        .main-box {
+            max-width: 800px;
+            width: 100%;
+            background-color: #fffaec;
+            border-radius: 50px 50px 40px 40px;
+            box-shadow: 0 15px 25px rgba(180, 120, 50, 0.2);
+            padding: 30px 22px;
+            border: 5px solid #ffb882;
+            position: relative;
+            margin: auto;
+        }
+
+        /* 主标题 —— 居中 */
+        .school-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #b64516;
+            text-shadow: 3px 3px 0 #ffe3b0;
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+            line-height: 1.2;
+            text-align: center;
+            word-break: break-word;
+        }
+
+        /* 副标题 —— 居中，文字“每天练一练，天天有进步” */
+        .sub-motto {
+            font-size: 1.4rem;
+            color: #c06b2b;
+            background-color: #ffdbb5;
+            display: inline-block;
+            padding: 8px 25px;
+            border-radius: 50px;
+            margin: 0 auto 20px auto;
+            font-weight: 600;
+            box-shadow: 0 5px 0 #e09c4c;
+            text-align: center;
+            border: 2px solid #ffa047;
+            letter-spacing: 2px;
+            width: fit-content;
+        }
+
+        /* 姓名班级 必填 —— 自适应flex */
+        .info-area {
+            background-color: #ffeac2;
+            border-radius: 35px;
+            padding: 18px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-around;
+            margin-bottom: 18px;
+            border: 3px dashed #ff8c5a;
+            gap: 12px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 1.1rem;
+            background: white;
+            padding: 6px 16px;
+            border-radius: 40px;
+            box-shadow: 0 4px 0 #ccc;
+            flex: 1 1 200px;
+        }
+
+        .info-item label {
+            color: #9e4a1b;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .info-item input {
+            border: 2px solid #ffb26b;
+            border-radius: 30px;
+            padding: 10px 14px;
+            font-size: 1rem;
+            width: 100%;
+            min-width: 130px;
+            outline: none;
+            background: #fffdf5;
+            transition: 0.2s;
+        }
+
+        .info-item input:focus {
+            border-color: #ff6b4a;
+            background-color: #fff6e0;
+        }
+
+        .required-star {
+            color: red;
+            font-size: 1.4rem;
+            margin-left: 4px;
+        }
+
+        /* 问题卡片 */
+        .question-card {
+            background: #fff5e6;
+            border-radius: 45px;
+            padding: 16px 20px;
+            margin: 15px 0 12px;
+            border: 4px solid #ffae6a;
+            box-shadow: inset 0 -4px 0 #d1773b;
+        }
+
+        .question-text {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #48284a;
+            line-height: 1.4;
+            word-break: break-word;
+            text-align: center;
+            background: #fff8dd;
+            padding: 15px 12px;
+            border-radius: 35px;
+        }
+
+        /* 回答框 */
+        .answer-section {
+            background: #ffe1b9;
+            border-radius: 35px;
+            padding: 20px 18px;
+            margin-top: 10px;
+        }
+
+        .answer-label {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #5e2e1c;
+            margin-bottom: 10px;
+        }
+
+        .textarea-box {
+            width: 100%;
+            border: 5px solid #ffaa7a;
+            border-radius: 30px;
+            padding: 16px 20px;
+            font-size: 1.2rem;
+            line-height: 1.5;
+            background: white;
+            resize: vertical;
+            min-height: 120px;
+            outline: none;
+            -webkit-appearance: none; /* 移动端美化 */
+        }
+
+        .textarea-box:focus {
+            border-color: #ff5e4a;
+            background-color: #fffff0;
+        }
+
+        /* 评分按钮 */
+        .score-btn-wrapper {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+        }
+
+        .btn-score {
+            background: #ff934f;
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.5rem;
+            padding: 12px 30px;
+            font-weight: bold;
+            border-bottom: 7px solid #b8551e;
+            transition: 0.06s linear;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 0 #8f3f17;
+        }
+
+        .btn-score:active {
+            border-bottom-width: 3px;
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #8f3f17;
+        }
+
+        /* 评分反馈+动画 */
+        .feedback-area {
+            background: #ffefcf;
+            border-radius: 30px;
+            margin-top: 18px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 3px solid #ffaa6b;
+            min-height: 75px;
+        }
+
+        .score-result {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #a64b2a;
+        }
+
+        .animation-emoji {
+            font-size: 2.5rem;
+            animation: pop 0.5s ease infinite alternate;
+            transform-origin: center;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.3); text-shadow: 0 0 12px gold; }
+        }
+
+        /* 关键词解释栏（提示栏） */
+        .explain-box {
+            background: #c4e6f1;
+            border-radius: 30px 30px 15px 15px;
+            padding: 18px 22px;
+            margin-top: 22px;
+            border-left: 12px solid #4699b3;
+            border-right: 5px solid #b0e0ee;
+            font-size: 1.2rem;
+            color: #1d5562;
+            box-shadow: 0 5px 0 #598b9c;
+            word-break: break-word;
+        }
+
+        .explain-title {
+            font-weight: bold;
+            color: #0b3b44;
+            font-size: 1.3rem;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 下一题按钮 —— 居中，解释栏下方，小提示上方 */
+        .next-btn-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 16px 0 12px;
+        }
+
+        .btn-next {
+            background: #fedb5f;
+            border: none;
+            border-radius: 100px;
+            color: #3f2b1a;
+            font-size: 1.9rem;
+            padding: 10px 40px;
+            font-weight: 800;
+            border-bottom: 9px solid #d49b3b;
+            cursor: pointer;
+            transition: 0.06s;
+            box-shadow: 0 7px 0 #aa7733;
+            letter-spacing: 6px;
+        }
+
+        .btn-next:active {
+            border-bottom-width: 4px;
+            transform: translateY(5px);
+            box-shadow: 0 3px 0 #aa7733;
+        }
+
+        /* 小提示区域 */
+        .tip-box {
+            background: #fbe4bc;
+            border-radius: 25px 25px 35px 35px;
+            padding: 18px 22px;
+            border: 4px solid #ffad60;
+            font-size: 1.2rem;
+            color: #593c1e;
+            margin-top: 8px;
+            border-bottom: 7px solid #c1823e;
+        }
+
+        .tip-title {
+            font-weight: bold;
+            color: #a3511c;
+            font-size: 1.35rem;
+        }
+
+        /* 针对小屏幕的微调 */
+        @media (max-width: 500px) {
+            .main-box { padding: 22px 16px; }
+            .school-title { font-size: 1.8rem; }
+            .sub-motto { font-size: 1.2rem; padding: 6px 18px; }
+            .question-text { font-size: 1.6rem; }
+            .btn-next { font-size: 1.7rem; padding: 8px 30px; }
+            .score-result { font-size: 1.4rem; }
+            .animation-emoji { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-box">
+        <!-- 主标题 —— 深州四中小学部表达小能手 -->
+        <div class="school-title">🐼 深州四中小学部表达小能手</div>
+        <!-- 副标题 —— 按要求修改并居中 -->
+        <div class="sub-motto">✨ 每天练一练，天天有进步 ✨</div>
+
+        <!-- 必填：姓名 + 班级 -->
+        <div class="info-area">
+            <div class="info-item">
+                <label>👤 姓名</label>
+                <input type="text" id="studentName" placeholder="你的名字" autocomplete="off">
+                <span class="required-star">*</span>
+            </div>
+            <div class="info-item">
+                <label>📚 班级</label>
+                <input type="text" id="studentClass" placeholder="例如: 一(3)班" autocomplete="off">
+                <span class="required-star">*</span>
+            </div>
+        </div>
+
+        <!-- 当前问题卡片 -->
+        <div class="question-card">
+            <div class="question-text" id="questionDisplay">今天的午饭好吃吗？多么好吃？</div>
+        </div>
+
+        <!-- 回答区 + 评分按钮 -->
+        <div class="answer-section">
+            <div class="answer-label">🗣️ 我的回答：</div>
+            <textarea id="answerInput" class="textarea-box" placeholder="把你的想法写下来吧..."></textarea>
+            <div class="score-btn-wrapper">
+                <button id="scoreBtn" class="btn-score">🏆 给我评分</button>
+            </div>
+            <!-- 评分反馈+动画区域 -->
+            <div id="feedbackArea" class="feedback-area">
+                <span id="scoreText" class="score-result">✨ 点击评分 ✨</span>
+                <span id="animationEmoji" class="animation-emoji">😊</span>
+            </div>
+        </div>
+
+        <!-- 关键词解释栏（提示栏） -->
+        <div id="explainBox" class="explain-box">
+            <div class="explain-title">📖 关键词解释</div>
+            <div id="explainContent">好吃：形容食物美味可口</div>
+        </div>
+
+        <!-- 下一题按钮 —— 严格按照要求：解释栏下方，小提示上方，居中 -->
+        <div class="next-btn-wrapper">
+            <button id="nextBtn" class="btn-next">➡️ 下一题</button>
+        </div>
+
+        <!-- 小提示：回答提示区域 -->
+        <div id="tipBox" class="tip-box">
+            <div class="tip-title">💡 回答小提示</div>
+            <div id="tipContent">可以从食物的气味、口感、颜色、形状等方面回答</div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            "use strict";
+
+            // ---------- 🌟 根据《情绪与感官体验问答表》构建90道题库（完整版）🌟 ----------
+            const questionBank = [
+                // 1~10
+                { question: "今天的午饭好吃吗？多么好吃？", explanation: "好吃：形容食物美味可口", tip: "可以从食物的气味、口感、颜色、形状等方面回答" },
+                { question: "你今天开心吗？多么开心？", explanation: "开心：形容心情愉快、舒畅", tip: "可以从事情、表情、动作、心里感觉等方面回答" },
+                { question: "你有难过吗？多么难过？", explanation: "难过：形容心里伤心、不舒服", tip: "可以从原因、表情、动作、心里感觉等方面回答" },
+                { question: "你有过生气的时候吗？多么生气？", explanation: "生气：形容心里不高兴、发怒", tip: "可以从事情、表情、动作、心里感觉等方面回答" },
+                { question: "你跑步后累吗？多么累？", explanation: "累：形容身体疲倦、没力气", tip: "可以从身体部位、动作、状态、感觉等方面回答" },
+                { question: "你晚饭前饿吗？多么饿？", explanation: "饿：形容肚子空、想吃东西", tip: "可以从肚子感觉、身体状态、心情等方面回答" },
+                { question: "你运动后口渴吗？多么渴？", explanation: "渴：形容口干、想喝水", tip: "可以从嘴巴感觉、身体状态、心情等方面回答" },
+                { question: "冬天冷吗？多么冷？", explanation: "冷：形容温度低、身体发凉", tip: "可以从身体感觉、动作、环境、穿着等方面回答" },
+                { question: "夏天热吗？多么热？", explanation: "热：形容温度高、身体发烫", tip: "可以从身体感觉、出汗、环境、穿着等方面回答" },
+                { question: "你今天舒服吗？多么舒服？", explanation: "舒服：形容身体或心情轻松自在", tip: "可以从身体、心情、环境、动作等方面回答" },
+                // 11~20
+                { question: "你做错事后紧张吗？多么紧张？", explanation: "紧张：形容心里不安、不放松", tip: "可以从事情、身体、表情、心里感觉等方面回答" },
+                { question: "你勇敢吗？多么勇敢？", explanation: "勇敢：形容不怕困难、胆子大", tip: "可以从事情、表现、动作、心里感觉等方面回答" },
+                { question: "别人给过你惊喜吗？多么惊喜？", explanation: "惊喜：形容意外又高兴", tip: "可以从事情、原因、表情、心情等方面回答" },
+                { question: "你幸福吗？多么幸福？", explanation: "幸福：形容心里满足、温暖、快乐", tip: "可以从家人、事情、生活、心里感觉等方面回答" },
+                { question: "你有没有着急的时候呢？多么着急？", explanation: "着急：形容心里焦急、等不及", tip: "可以从事情、动作、心情、状态等方面回答" },
+                { question: "今天的早饭香吗？多么香？", explanation: "香：形容食物气味好闻、诱人", tip: "可以从气味、味道、吃起来的感觉等方面回答" },
+                { question: "西瓜甜吗？多么甜？", explanation: "甜：形容味道像糖一样", tip: "可以从味道、口感、表情、感觉等方面回答" },
+                { question: "山楂酸吗？多么酸？", explanation: "酸：形容味道像醋、柠檬一样", tip: "可以从味道、表情、身体感觉等方面回答" },
+                { question: "你吃过脆脆的零食吗？多么脆？", explanation: "脆：形容咬起来容易碎、声音清脆", tip: "可以从口感、声音、咬下去的感觉等方面回答" },
+                { question: "这个汤鲜吗？多么鲜？", explanation: "鲜：形容汤或菜味道鲜美、不腻", tip: "可以从味道、口感、喝起来的感觉等方面回答" },
+                // 21~30
+                { question: "牛奶好喝吗？说说吧？", explanation: "好喝：形容饮品味道好、顺口", tip: "可以从味道、口感、喝下去的感觉等方面回答" },
+                { question: "面包软吗？多么软？", explanation: "软：形容摸起来柔和、不硬", tip: "可以从手感、口感、吃起来的感觉等方面回答" },
+                { question: "饺子好吃吗？多么好吃？", explanation: "好吃：形容食物味道好、可口", tip: "可以从气味、口感、颜色、形状等方面回答" },
+                { question: "你最喜欢的食物是什么？多么喜欢？", explanation: "喜欢：对事物有好感、很爱", tip: "可以从味道、样子、口感、吃的心情等方面回答" },
+                { question: "晴天好吗？多么好？", explanation: "好：形容让人舒服、开心、喜欢", tip: "可以从太阳、天空、光线、活动等方面回答" },
+                { question: "雨天美吗？多么美？", explanation: "美：形容景色、声音好看好听", tip: "可以从雨声、雨点、天空、景色等方面回答" },
+                { question: "风吹在脸上舒服吗？多么舒服？", explanation: "舒服：形容感觉轻松、自在", tip: "可以从风的大小、温度、脸上感觉等方面回答" },
+                { question: "太阳暖吗？多么暖？", explanation: "暖：形容温度适中、身体暖和", tip: "可以从阳光、身体、心里感觉等方面回答" },
+                { question: "你在春天做什么游戏？春天有多好？", explanation: "好：形容让人舒服、开心、喜欢", tip: "可以从天气、花草、游戏、心情等方面回答" },
+                { question: "春天美吗？多么美？", explanation: "美：形容样子好看、让人舒服", tip: "可以从颜色、景物、花草、天气等方面回答" },
+                // 31~40
+                { question: "夏天热吗？多么热？", explanation: "热：形容温度高、身体发烫", tip: "可以从天气、衣服、活动、感觉等方面回答" },
+                { question: "秋天凉吗？多么凉？", explanation: "凉：形容温度不冷不热、清爽", tip: "可以从风、树叶、天空、感觉等方面回答" },
+                { question: "冬天冷吗？多么冷？", explanation: "冷：形容温度很低、身体发凉", tip: "可以从衣服、雪、活动、感觉等方面回答" },
+                { question: "云好看吗？多么好看？", explanation: "好看：形容样子漂亮、有趣", tip: "可以从形状、颜色、变化、想象等方面回答" },
+                { question: "星星亮吗？多么亮？", explanation: "亮：形容光线强、闪闪发光", tip: "可以从颜色、数量、天空、感觉等方面回答" },
+                { question: "月亮圆吗？多么圆？", explanation: "圆：形容形状像圆圈一样", tip: "可以从形状、颜色、样子、想象等方面回答" },
+                { question: "小草绿吗？多么绿？", explanation: "绿：形容像叶子一样的颜色", tip: "可以从颜色、样子、摸起来的感觉等方面回答" },
+                { question: "花儿香吗？多么香？", explanation: "香：形容气味好闻、清新", tip: "可以从气味、颜色、样子、心情等方面回答" },
+                { question: "河水清吗？多么清？", explanation: "清：形容干净、能看见底下", tip: "可以从颜色、透明度、样子等方面回答" },
+                { question: "雪美吗？多么美？", explanation: "美：形容景色洁白、好看", tip: "可以从颜色、形状、摸起来的感觉等方面回答" },
+                // 41~50
+                { question: "雷声大吗？多么大？", explanation: "大：形容声音响亮、震耳朵", tip: "可以从声音、心情、环境等方面回答" },
+                { question: "彩虹漂亮吗？多么漂亮？", explanation: "漂亮：形容颜色好看、美丽", tip: "可以从颜色、形状、样子、心情等方面回答" },
+                { question: "山好看吗？多么好看？", explanation: "好看：形容样子高大、壮观", tip: "可以从形状、颜色、景色、想象等方面回答" },
+                { question: "你最喜欢哪个季节？多么喜欢？", explanation: "喜欢：对事物有好感、很爱", tip: "可以从天气、景物、活动、心情等方面回答" },
+                { question: "小鸟叫声好听吗？多么好听？", explanation: "好听：形容声音悦耳、舒服", tip: "可以从声音高低、节奏、心情等方面回答" },
+                { question: "手机的铃声响吗？多么响？", explanation: "响：形容声音大、清脆", tip: "可以从声音大小、听到后的感觉等方面回答" },
+                { question: "你朋友的笑声好听吗？多么好听？", explanation: "好听：形容声音快乐、清脆", tip: "可以从声音、心情、场面等方面回答" },
+                { question: "下雨声好听吗？多么好听？", explanation: "好听：形容声音轻柔、舒服", tip: "可以从声音大小、节奏、感觉等方面回答" },
+                { question: "汽车声音大吗？多么大？", explanation: "大：形容声音响亮、吵", tip: "可以从声音、感觉、环境等方面回答" },
+                { question: "你喜欢唱歌吗？多么喜欢？", explanation: "喜欢：对事情有兴趣、爱做", tip: "可以从声音、心情、感觉等方面回答" },
+                // 51~60
+                { question: "风吹树叶好听吗？多么好听？", explanation: "好听：形容声音轻柔、自然", tip: "可以从声音、节奏、感觉等方面回答" },
+                { question: "你最喜欢什么声音？多么喜欢？", explanation: "喜欢：对声音有好感、爱听", tip: "可以从声音来源、感觉、心情等方面回答" },
+                { question: "毛绒玩具软吗？多么软？", explanation: "软：形容摸起来柔和、不硬", tip: "可以从手感、摸上去的感觉等方面回答" },
+                { question: "石头硬吗？多么硬？", explanation: "硬：形容不容易变形、结实", tip: "可以从手感、用力后的感觉等方面回答" },
+                { question: "被子暖吗？多么暖？", explanation: "暖：形容盖着暖和、舒服", tip: "可以从温度、手感、身体感觉等方面回答" },
+                { question: "冰很凉吗？多么凉？", explanation: "凉：形容温度很低、冰手", tip: "可以从温度、手感、摸上去的感觉等方面回答" },
+                { question: "沙子细吗？多么细？", explanation: "细：形容颗粒小、柔软", tip: "可以从手感、踩上去的感觉等方面回答" },
+                { question: "橡皮软吗？多么软？", explanation: "软：形容捏起来柔和、有弹性", tip: "可以从手感、捏上去的感觉等方面回答" },
+                { question: "书本光滑吗？多么光滑？", explanation: "光滑：形容表面平整、不粗糙", tip: "可以从手感、摸上去的感觉等方面回答" },
+                { question: "小手暖（凉）吗？多么暖（凉）？", explanation: "暖：形容温度适中、暖和", tip: "可以从温度、手感、心里感觉等方面回答" },
+                // 61~70
+                { question: "你喜欢玩游戏吗？多么喜欢？", explanation: "喜欢：对事情有兴趣、爱做", tip: "可以从玩法、心情、和谁玩等方面回答" },
+                { question: "跑步快乐吗？多么快乐？", explanation: "快乐：形容心里高兴、开心", tip: "可以从动作、速度、心情等方面回答" },
+                { question: "跳绳好玩吗？多么好玩？", explanation: "好玩：形容有趣、让人开心", tip: "可以从动作、节奏、心情等方面回答" },
+                { question: "拍球开心吗？多么开心？", explanation: "开心：形容心情快乐、舒畅", tip: "可以从动作、配合、心情等方面回答" },
+                { question: "和朋友一起玩快乐吗？多么快乐？", explanation: "快乐：形容心里高兴、幸福", tip: "可以从一起做什么、心情等方面回答" },
+                { question: "你喜欢画画吗？多么喜欢？", explanation: "喜欢：对事情有兴趣、爱做", tip: "可以从颜色、内容、画完的心情等方面回答" },
+                { question: "你喜欢看书吗？多么喜欢？", explanation: "喜欢：对事情有兴趣、爱做", tip: "可以从内容、图画、看书的心情等方面回答" },
+                { question: "玩玩具开心吗？多么开心？", explanation: "开心：形容心情快乐、高兴", tip: "可以从玩具、玩法、心情等方面回答" },
+                { question: "做运动舒服吗？多么舒服？", explanation: "舒服：形容身体轻松、畅快", tip: "可以从动作、身体、心情等方面回答" },
+                { question: "你最喜欢的课间活动是什么？多么喜欢？", explanation: "喜欢：对事情有兴趣、爱做", tip: "可以从内容、和谁玩、心情等方面回答" },
+                // 71~80
+                { question: "你爱妈妈吗？多么爱？", explanation: "爱：形容心里喜欢、关心、牵挂", tip: "可以从妈妈做的事、心里感觉等方面回答" },
+                { question: "你爱爸爸吗？多么爱？", explanation: "爱：形容心里喜欢、尊敬、依靠", tip: "可以从爸爸做的事、心里感觉等方面回答" },
+                { question: "喜欢和家人在一起吗？多么喜欢？", explanation: "喜欢：对陪伴有好感、安心、温暖", tip: "可以从一起做什么、心情等方面回答" },
+                { question: "家人对你好吗？多么好？", explanation: "好：形容关心、爱护、照顾", tip: "可以从事情、语言、感觉等方面回答" },
+                { question: "你想对家人说什么？多么想说？", explanation: "想说：形容心里有话、想表达", tip: "可以从感谢、关心、爱等方面回答" },
+                { question: "除夕这一天你快乐吗？多么快乐？", explanation: "快乐：形容心情高兴、愉悦、幸福", tip: "可以从事情、气氛、家人、心里感觉等方面回答" },
+                { question: "过年开心吗？多么开心？", explanation: "开心：形容心情快乐、热闹、幸福", tip: "可以从礼物、饭菜、家人、气氛等方面回答" },
+                { question: "收到礼物开心吗？多么开心？", explanation: "开心：形容心情惊喜、快乐、满足", tip: "可以从礼物、样子、心情等方面回答" },
+                { question: "帮家人做事自豪吗？多么自豪？", explanation: "自豪：形容心里骄傲、有成就感", tip: "可以从做什么、结果、心情等方面回答" },
+                { question: "你觉得自己幸福吗？多么幸福？", explanation: "幸福：形容心里满足、温暖、快乐", tip: "可以从家人、生活、心情等方面回答" },
+                // 81~90
+                { question: "你喜欢学语文吗？多么喜欢？", explanation: "喜欢：对学科有兴趣、爱学", tip: "可以从课文、故事、写字、朗读等方面回答" },
+                { question: "你们班谁写字好看呢？多么好看？", explanation: "好看：形容字工整、漂亮、整齐", tip: "可以从笔画、结构、样子、整洁等方面回答" },
+                { question: "你们班谁读书好听呢？多么好听？", explanation: "好听：形容声音清楚、流畅、有感情", tip: "可以从声音、停顿、感情、态度等方面回答" },
+                { question: "得到表扬开心吗？多么开心？", explanation: "开心：形容心里高兴、自豪、满足", tip: "可以从事情、表扬内容、心情等方面回答" },
+                { question: "你写作业认真吗？多么认真？", explanation: "认真：形容专心、不马虎、用心", tip: "可以从做事、学习、态度、表现等方面回答" },
+                { question: "你喜欢那个故事吗？多么喜欢？", explanation: "喜欢：对事物有好感、感兴趣、很爱", tip: "可以从人物、情节、内容、感受等方面回答" },
+                { question: "你觉得什么小动物可爱呢？多么可爱？", explanation: "可爱：形容样子讨人喜欢、萌", tip: "可以从样子、动作、声音、表情等方面回答" },
+                { question: "你觉得哪些玩具有趣？多么有趣？", explanation: "有趣：形容好玩、吸引人、有意思", tip: "可以从样子、玩法、心情等方面回答" },
+                { question: "你觉得自己棒吗？多么棒？", explanation: "棒：形容优秀、能干、厉害", tip: "可以从本领、做事、优点、表现等方面回答" },
+                { question: "今天最想夸夸谁？多么想夸？", explanation: "夸：形容赞美、表扬、欣赏", tip: "可以从优点、事情、心里感觉等方面回答" }
+            ];
+
+            // ----- 为每道题提取核心关键词（基于解释冒号前的词语）用于评分鼓励 -----
+            const questions = questionBank.map(item => {
+                let keyword = '';
+                const expl = item.explanation;
+                if (expl.includes('：')) {
+                    keyword = expl.split('：')[0].trim();
+                } else if (expl.includes(':')) {
+                    keyword = expl.split(':')[0].trim();
+                } else {
+                    keyword = expl.substring(0, 2); // 极少数fallback
+                }
+                return {
+                    ...item,
+                    keyword: keyword || '开心'
+                };
+            });
+
+            // ---------- DOM 元素 ----------
+            const questionDisplay = document.getElementById('questionDisplay');
+            const explainContent = document.getElementById('explainContent');
+            const tipContent = document.getElementById('tipContent');
+            const answerInput = document.getElementById('answerInput');
+            const studentName = document.getElementById('studentName');
+            const studentClass = document.getElementById('studentClass');
+            const scoreBtn = document.getElementById('scoreBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const scoreText = document.getElementById('scoreText');
+            const animationEmoji = document.getElementById('animationEmoji');
+
+            // ---------- 状态 ----------
+            let currentIndex = 0;
+
+            // ---------- 辅助函数 ----------
+            function getRandomIndex() {
+                return Math.floor(Math.random() * questions.length);
+            }
+
+            // 渲染当前题目
+            function renderQuestion() {
+                const q = questions[currentIndex];
+                questionDisplay.innerText = q.question;
+                explainContent.innerText = q.explanation;
+                tipContent.innerText = q.tip;
+                answerInput.value = '';          // 清空回答
+                scoreText.innerText = '✨ 新题目 ✨';
+                animationEmoji.innerText = '🐣';
+                // 重启动画
+                animationEmoji.style.animation = 'none';
+                animationEmoji.offsetHeight;
+                animationEmoji.style.animation = 'pop 0.5s ease infinite alternate';
+            }
+
+            // ---------- 评分函数：鼓励为主，对照答题提升 ----------
+            function handleScore() {
+                // 1. 必填验证
+                const nameVal = studentName.value.trim();
+                const classVal = studentClass.value.trim();
+                if (nameVal === '' || classVal === '') {
+                    alert('🌻 请先填写姓名和班级（必填项）才能评分哦！');
+                    return;
+                }
+
+                const answer = answerInput.value.trim();
+                const currentQ = questions[currentIndex];
+                const keyword = currentQ.keyword || '';
+
+                let baseScore = 40;      // 基础分40
+                let bonus = 0;
+
+                if (answer.length > 0) {
+                    // 长度奖励 (鼓励多说)
+                    if (answer.length >= 5) baseScore += 5;
+                    if (answer.length >= 10) baseScore += 10;
+                    if (answer.length >= 20) baseScore += 12;
+                    if (answer.length >= 30) baseScore += 8;  // 累计+35
+
+                    // 核心关键词匹配（提取自解释）
+                    if (keyword && answer.includes(keyword)) {
+                        bonus += 15;
+                    }
+                    // 使用连接词/描述词，说明有条理
+                    if (/因为|所以|然后|而且|但是|于是|感觉|觉得|好像|有[0-9]/.test(answer)) {
+                        bonus += 10;
+                    }
+                    // 标点符号丰富，愿意表达
+                    if (/[。，、；,.?？!！]/.test(answer)) {
+                        bonus += 5;
+                    }
+                } else {
+                    baseScore = 30; // 没写也给予鼓励
+                }
+
+                let totalScore = baseScore + bonus;
+                if (totalScore > 100) totalScore = 100;
+                if (totalScore < 30) totalScore = 30;
+
+                scoreText.innerText = `🏅 得分：${totalScore} 分`;
+
+                // 动画表情根据分数变化
+                if (totalScore >= 85) {
+                    animationEmoji.innerText = '🎉🎊 太棒了！';
+                } else if (totalScore >= 65) {
+                    animationEmoji.innerText = '🌟👍 有进步';
+                } else {
+                    animationEmoji.innerText = '🌱 再试试，更棒哟';
+                }
+                // 重启动画
+                animationEmoji.style.animation = 'none';
+                animationEmoji.offsetHeight;
+                animationEmoji.style.animation = 'pop 0.5s ease infinite alternate';
+            }
+
+            // ---------- 下一题（顺序循环）----------
+            function nextQuestion() {
+                currentIndex = (currentIndex + 1) % questions.length;
+                renderQuestion();
+            }
+
+            // ---------- 初始化：每次打开随机首页题目 + 绑定事件 ----------
+            function initApp() {
+                currentIndex = getRandomIndex();
+                renderQuestion();
+
+                scoreBtn.addEventListener('click', handleScore);
+                nextBtn.addEventListener('click', nextQuestion);
+            }
+
+            initApp();
+        })();
+    </script>
+</body>
+</html>
